@@ -41,4 +41,4 @@ Si l'utilisateur possède un rôle **Administrateur**, il peut :
 
 1. Clonez ce dépôt sur votre machine locale :
    ```bash
-   git clone https://github.com/zKittyGB/NecroDefenseStore/).git
+   git clone https://github.com/zKittyGB/NecroDefenseStore.git
