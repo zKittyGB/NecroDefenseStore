@@ -8,22 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Review;
+use App\Entity\Customer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use App\Entity\Customer;
 
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'app_contact')]
-    public function contact(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, Customer $customer): Response
+    public function contact(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $titleValue = $form->get('title')->getData();
             if (!$titleValue) {
-                $this->redirectToRoute('contact');
+                return $this->redirectToRoute('app_contact');
             } else if ($titleValue === 1) { //Contact us
                 $message = $form->get('message')->getData();
                 $firstName = $form->get('firstName')->getData();

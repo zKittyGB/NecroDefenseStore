@@ -44,7 +44,7 @@ class RegisterController extends AbstractController
                 $userPassword
             );
             //Set the hashpassword in customer object
-            $customer->setRoles(['customer']);
+            $customer->setRoles(['ROLE_CUSTOMER']);
             $customer->setPassword($hashPassword);
             $this->entityManager->persist($customer);
             $this->entityManager->flush();

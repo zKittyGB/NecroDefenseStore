@@ -13,7 +13,7 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils, UserManager $userManager): Response
     {
-        if ($userManager->isLoggedIn === true) {
+        if ($userManager->isConnected()) {
             return $this->redirectToRoute('homepage');
         }
         //Récupérer les erreurs de connexion

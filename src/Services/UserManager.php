@@ -6,8 +6,8 @@ use \Symfony\Bundle\SecurityBundle\Security;
 
 class UserManager
 {
-    private $security;
-    public $isLoggedIn; // Nouvelle propriété pour représenter l'état de connexion
+    private Security $security;
+    private bool $isLoggedIn = false;
 
     public function __construct(Security $security)
     {
@@ -15,18 +15,20 @@ class UserManager
         $this->updateConnectionStatus();
     }
 
-    public function isConnected()
+    public function isConnected(): bool
     {
+        $this->updateConnectionStatus();
+
         return $this->isLoggedIn;
     }
 
-    public function isDisconnected()
+    public function isDisconnected(): bool
     {
-        return !$this->isLoggedIn;
+        return !$this->isConnected();
     }
 
     // Met à jour l'état de connexion
-    public function updateConnectionStatus()
+    private function updateConnectionStatus(): void
     {
         $user = $this->security->getUser();
         $this->isLoggedIn = ($user !== null);
