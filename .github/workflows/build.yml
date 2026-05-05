@@ -3,16 +3,13 @@ name: Build Symfony artifact
 on:
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -22,10 +19,12 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        run: composer install --no-dev --optimize-autoloader --classmap-authoritative --no-interaction
+        run: composer install --no-dev --optimize-autoloader --classmap-authoritative
 
-      - name: Validate Symfony console (prod)
-        run: APP_ENV=prod APP_DEBUG=0 php bin/console --version
+      - name: Clear and warmup cache (prod)
+        run: |
+          APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+          APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup
 
       - name: Generate SQL schema dump
         run: APP_ENV=prod APP_DEBUG=0 php bin/console doctrine:schema:create --dump-sql > database/necrodefensestore_schema.sql
