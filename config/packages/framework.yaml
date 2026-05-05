@@ -18,6 +18,15 @@ framework:
     php_errors:
         log: true
 
+    router:
+        utf8: true
+        default_uri: '%env(APP_DEFAULT_URI)%'
+        request_context:
+            base_url: '%env(default::APP_BASE_PATH)%'
+
+    assets:
+        base_path: '%env(default::APP_BASE_PATH)%'
+
 when@test:
     framework:
         test: true
